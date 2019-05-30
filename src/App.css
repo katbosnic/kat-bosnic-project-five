@@ -7,16 +7,69 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
 
 html {
   font-size: 125%;
+  background: rgb(233,243,231);
 }
+
 ul {
   padding: 0;
 }
+
 p,
 h1,
 h2,
 h3 {
   margin: 0;
 }
+
+h1,
+h2,
+h3,
+button {
+  font-family: 'Lobster', cursive;
+}
+
+h1,
+h2,
+h3 {
+  color: rgb(196,42,45);
+}
+
+h1 {
+  font-size: 5rem;
+  text-shadow: 3px 3px rgb(254,204,189);
+}
+
+p,
+a {
+  font-family: 'Cabin', sans-serif;
+}
+
+li p {
+  font-size: 1.3rem;
+}
+
+button {
+  border: 0;
+  background: none;
+}
+
+
+
+header {
+  height: 25vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.information-btn{
+  font-size: 2rem;
+  position: absolute; 
+  top: 20px;
+  right: 20px;
+}
+
 .game-field,
 .App {
   display: flex;
@@ -33,6 +86,7 @@ h3 {
   align-items: center;
   align-content: flex-start;
   flex-wrap: wrap;
+
 }
 
 .trash-card-and-inputs {
@@ -40,12 +94,14 @@ h3 {
   padding: 20px;
   height: 150px;
   border: 10px solid orange;
+  border-radius: 5px;
   margin-bottom: 15px;
   display: flex;
   text-align: center;
   justify-content: center;
   align-items: center;
   position: relative;
+  background: rgb(215, 255, 206);
 }
 
 li {
@@ -172,4 +228,10 @@ input:last-of-type:focus::before {
 
 input:last-of-type {
   right: 10px;
+}
+
+.proceed-buttons button {
+  background: #FAFAFA;
+  border: 8px solid rgb(196,42,45);
+  padding: 15px 30px;
 }

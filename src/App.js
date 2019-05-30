@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import firebase from './firebase.js';
+import Radio from './Radio.js';
+import GameField from './GameField.js';
+
 import './App.css';
 
 class App extends Component {
@@ -75,33 +78,42 @@ class App extends Component {
     })
   }
 
+  goToNextSet = () => {
+    console.log('click')
+  }
   render() {
     return (
       <div className="App" >
         <header>
           <h1>Waste-Wise!</h1>
+          <button className="information-btn"><i class="fas fa-info-circle"></i></button>
         </header>
+        {/* <GameField
+          round = {this.state.roundOne}
+        /> */}
         <div className="game-field">
           <ul className="trash-card-container">
             {this.state.roundOne.map((trashItem, index) => {
               return (
                 <div className="trash-card-and-inputs">
-                  <input type="radio"
-                    name={index}
+
+                  <Radio
                     value="usersOrganicBin"
-                    data-name={trashItem}
+                    name={index}
+                    dataName={trashItem}
                     onChange={this.handleChange}
                   />
-                  <input type="radio"
-                    name={index}
+                  <Radio
                     value="usersRecyclingBin"
-                    data-name={trashItem}
+                    name={index}
+                    dataName={trashItem}
                     onChange={this.handleChange}
                   />
-                  <input type="radio"
-                    name={index}
+
+                  <Radio
                     value="usersGarbageBin"
-                    data-name={trashItem}
+                    name={index}
+                    dataName={trashItem}
                     onChange={this.handleChange}
                   />
                   <li className="trash-card" key={index}>
@@ -111,12 +123,12 @@ class App extends Component {
               )
             })}
           </ul>
-          <div className="buttons">
+          <div className="proceed-buttons">
             {/* <button><i class="fas fa-arrow-left"></i> Back</button> */}
-            <button>Next <i class="fas fa-arrow-right"></i></button>
+            <button onClick={this.goToNextSet}>Next <i class="fas fa-arrow-right"></i></button>
           </div>
         </div>
-      </div>
+      </div >
     );
   }
 }
