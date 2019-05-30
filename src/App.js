@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import firebase from './firebase.js';
 import Radio from './Radio.js';
-import GameField from './GameField.js';
+import BackButton from './BackButton.js';
+// import GameField from './GameField.js';
 
 import './App.css';
 
@@ -13,11 +14,16 @@ class App extends Component {
       roundOne: [],
       roundTwo: [],
       roundThree: [],
+      currentRound: 'roundOne',
+      round: [],
       usersGarbageBin: [],
       usersRecyclingBin: [],
-      usersOrganicBin: []
+      usersOrganicBin: [],
+      clicked: false
     }
+    this.goToPreviousSet = this.goToPreviousSet.bind(this);
   }
+
   componentDidMount() {
     const dbRef = firebase.database().ref();
     dbRef.on('value', (response) => {
@@ -31,10 +37,12 @@ class App extends Component {
       const newRoundTwo = this.state.trashItems.slice(12, 18);
 
       this.setState({
+        round: newRoundOne,
         roundOne: newRoundOne,
         roundTwo: newRoundTwo,
         roundThree: newRoundThree
       });
+
     });
 
   }
@@ -59,7 +67,6 @@ class App extends Component {
       for (let i = 0; i < array.length; i++) {
         if (array[i] === targetedItem) {
           array.splice(i, 1);
-          // i--;
         } else {
 
         }
@@ -79,8 +86,42 @@ class App extends Component {
   }
 
   goToNextSet = () => {
-    console.log('click')
+    // check current round
+    // if clicked go to next round
+    if (this.state.currentRound === 'roundOne') {
+
+      this.setState({
+        round: this.state.roundTwo,
+        currentRound: 'roundTwo',
+        clicked: true
+      })
+    } else if (this.state.currentRound === 'roundTwo') {
+
+      this.setState({
+        round: this.state.roundThree,
+        currentRound: 'roundThree',
+      })
+    }
   }
+
+  goToPreviousSet = () => {
+    console.log('clicked')
+    if (this.state.currentRound === 'roundTwo') {
+
+      this.setState({
+        round: this.state.roundOne,
+        currentRound: 'roundOne',
+        clicked: false
+      })
+    } else if (this.state.currentRound === 'roundThree') {
+
+      this.setState({
+        round: this.state.roundTwo,
+        currentRound: 'roundTwo',
+      })
+    }
+  }
+
   render() {
     return (
       <div className="App" >
@@ -93,7 +134,7 @@ class App extends Component {
         /> */}
         <div className="game-field">
           <ul className="trash-card-container">
-            {this.state.roundOne.map((trashItem, index) => {
+            {this.state.round.map((trashItem, index) => {
               return (
                 <div className="trash-card-and-inputs">
 
@@ -123,9 +164,10 @@ class App extends Component {
               )
             })}
           </ul>
-          <div className="proceed-buttons">
+          <div className="proceed-buttons clearfix">
             {/* <button><i class="fas fa-arrow-left"></i> Back</button> */}
-            <button onClick={this.goToNextSet}>Next <i class="fas fa-arrow-right"></i></button>
+            {this.state.clicked ? <BackButton onClick={this.goToPreviousSet} /> : null}
+            <button className="next" onClick={this.goToNextSet}>Next <i class="fas fa-arrow-right"></i></button>
           </div>
         </div>
       </div >

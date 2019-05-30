@@ -68,6 +68,11 @@ header {
   position: absolute; 
   top: 20px;
   right: 20px;
+  color:rgb(196,42,45);
+}
+
+.information-btn i:focus {
+  text-shadow: 0 0 5px green;
 }
 
 .game-field,
@@ -101,7 +106,7 @@ header {
   justify-content: center;
   align-items: center;
   position: relative;
-  background: rgb(215, 255, 206);
+  background: #FAFAFA;
 }
 
 li {
@@ -234,4 +239,17 @@ input:last-of-type {
   background: #FAFAFA;
   border: 8px solid rgb(196,42,45);
   padding: 15px 30px;
+  border-radius: 8px;
+}
+
+.proceed-buttons {
+  width: 60%;
+}
+
+.next {
+  float: right;
+}
+
+.previous {
+  float: left;
 }
