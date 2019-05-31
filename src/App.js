@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import firebase from './firebase.js';
 import Radio from './Radio.js';
+import NextButton from './NextButton.js';
 import BackButton from './BackButton.js';
+import SubmitButton from './SubmitButton.js';
 // import GameField from './GameField.js';
 
 import './App.css';
@@ -11,6 +13,9 @@ class App extends Component {
     super();
     this.state = {
       trashItems: [],
+      garbageItems: [],
+      recyclingItems: [],
+      organicItems: [],
       roundOne: [],
       roundTwo: [],
       roundThree: [],
@@ -19,8 +24,14 @@ class App extends Component {
       usersGarbageBin: [],
       usersRecyclingBin: [],
       usersOrganicBin: [],
-      clicked: false
+      showPreviousButton: false,
+      showSubmitButton: false,
+      showNextButton: true,
+      // compareRecyling: [],
+      // compareGarbage: [],
+      // compareOrganic: []
     }
+    // this.radioInput = React.createRef();
     this.goToPreviousSet = this.goToPreviousSet.bind(this);
   }
 
@@ -29,7 +40,10 @@ class App extends Component {
     dbRef.on('value', (response) => {
       const trashObj = (response.val());
       this.setState({
-        trashItems: trashObj.trashItemsArr
+        trashItems: trashObj.trashItemsArr,
+        garbageItems: trashObj.garbageBinArr,
+        recyclingItems: trashObj.recyclingBinArr,
+        organicItems: trashObj.wasteWiseBinArr
       });
 
       const newRoundThree = this.state.trashItems.slice(0, 6);
@@ -44,8 +58,8 @@ class App extends Component {
       });
 
     });
-
   }
+
 
   handleChange = (event) => {
     const targetedItemVal = event.target.value
@@ -67,8 +81,6 @@ class App extends Component {
       for (let i = 0; i < array.length; i++) {
         if (array[i] === targetedItem) {
           array.splice(i, 1);
-        } else {
-
         }
       }
     }
@@ -83,6 +95,7 @@ class App extends Component {
     this.setState({
       [targetedItemVal]: bin
     })
+
   }
 
   goToNextSet = () => {
@@ -93,33 +106,65 @@ class App extends Component {
       this.setState({
         round: this.state.roundTwo,
         currentRound: 'roundTwo',
-        clicked: true
+        showPreviousButton: true
       })
     } else if (this.state.currentRound === 'roundTwo') {
 
       this.setState({
         round: this.state.roundThree,
         currentRound: 'roundThree',
+        showNextButton: false,
+        showSubmitButton: true
       })
     }
+
   }
 
   goToPreviousSet = () => {
-    console.log('clicked')
     if (this.state.currentRound === 'roundTwo') {
 
       this.setState({
         round: this.state.roundOne,
         currentRound: 'roundOne',
-        clicked: false
+        showPreviousButton: false,
+
+
       })
     } else if (this.state.currentRound === 'roundThree') {
 
       this.setState({
         round: this.state.roundTwo,
         currentRound: 'roundTwo',
+        showNextButton: true,
+        showSubmitButton: false
       })
     }
+  }
+
+  handleSubmit = () => {
+    const addRecycling = [];
+
+    addRecycling.push(...this.state.usersRecyclingBin, ...this.state.recyclingItems);
+
+    const addOrganic = [];
+
+    addOrganic.push(...this.state.usersOrganicBin, ...this.state.organicItems);
+
+    const addGarbage = [];
+
+    addGarbage.push(...this.state.usersGarbageBin, ...this.state.garbageItems);
+
+    const uniqueArr = (arr) => {
+      return arr.filter(function (item, index) {
+        return arr.indexOf(item) >= index;
+      })
+    };
+
+    uniqueArr(addOrganic);
+    uniqueArr(addGarbage);
+    uniqueArr(addRecycling);
+
+    console.log(uniqueArr(addRecycling))
   }
 
   render() {
@@ -136,7 +181,7 @@ class App extends Component {
           <ul className="trash-card-container">
             {this.state.round.map((trashItem, index) => {
               return (
-                <div className="trash-card-and-inputs">
+                <form className="trash-card-and-inputs">
 
                   <Radio
                     value="usersOrganicBin"
@@ -160,16 +205,31 @@ class App extends Component {
                   <li className="trash-card" key={index}>
                     <p>{trashItem}</p>
                   </li>
-                </div>
+                </form>
               )
             })}
           </ul>
           <div className="proceed-buttons clearfix">
             {/* <button><i class="fas fa-arrow-left"></i> Back</button> */}
-            {this.state.clicked ? <BackButton onClick={this.goToPreviousSet} /> : null}
-            <button className="next" onClick={this.goToNextSet}>Next <i class="fas fa-arrow-right"></i></button>
+            {this.state.showPreviousButton ? <BackButton onClick={this.goToPreviousSet} /> : null}
+
+            {this.state.showSubmitButton ? <SubmitButton onClick={this.handleSubmit} /> : null}
+
+            {this.state.showNextButton ? <NextButton onClick={this.goToNextSet} /> : null}
           </div>
         </div>
+        <div className="trash-bins">
+          <div className="organic bin">
+            <i className="fas fa-seedling"></i>
+          </div>
+          <div className="recycling bin">
+            <i className="fas fa-recycle"></i>
+          </div>
+          <div className="garbage bin">
+            <i className="far fa-trash-alt"></i>
+          </div>
+        </div>
+        <footer><p>Made by <a target="_blank" href="http://katbosnic.com"> Kat Bosnic</a></p></footer>
       </div >
     );
   }

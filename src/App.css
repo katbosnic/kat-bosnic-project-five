@@ -83,8 +83,8 @@ header {
   align-items: center;
 }
 .trash-card-container {
-  width: 60%;
-  max-width: 1000px;
+  width: 100%;
+  max-width: 700px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -98,7 +98,7 @@ header {
   width: calc(100% / 3 - 10px);
   padding: 20px;
   height: 150px;
-  border: 10px solid orange;
+  border: 8px solid orange;
   border-radius: 5px;
   margin-bottom: 15px;
   display: flex;
@@ -243,13 +243,67 @@ input:last-of-type {
 }
 
 .proceed-buttons {
-  width: 60%;
+  width: 100%;
 }
 
-.next {
+.next,
+.submit {
   float: right;
 }
 
 .previous {
   float: left;
+}
+
+.trash-bins {
+  margin-top: 60px;
+  width: 80%;
+  max-width: 700px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: 1.2rem;
+}
+
+.trash-bins i {
+  font-size: 2.5rem;
+}
+
+.organic {
+  color: rgb(6, 114, 46);
+}
+.recycling {
+  color: rgb(37, 83, 233);
+}
+.garbage {
+  color: rgb(32, 32, 34);
+}
+
+.bin {
+  background: #FAFAFA;
+  padding: 15px;
+  width: calc(100% / 3 - 10px);
+  text-align: center;
+  border: 8px solid orange;
+  border-radius: 8px;
+}
+
+footer {
+  background: #FAFAFA;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  bottom: -10px;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+a {
+  font-weight: 600;
+  color: rgb(196,42,45);
+  text-decoration: none;
 }
