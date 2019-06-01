@@ -4,8 +4,7 @@ import Radio from './Radio.js';
 import NextButton from './NextButton.js';
 import BackButton from './BackButton.js';
 import SubmitButton from './SubmitButton.js';
-// import GameField from './GameField.js';
-
+import RetryButton from './RetryButton.js';
 import './App.css';
 
 class App extends Component {
@@ -28,6 +27,7 @@ class App extends Component {
       showSubmitButton: false,
       showNextButton: true,
       showInfo: false,
+      showRetry: false,
       score: 0
     }
     // this.goToPreviousSet = this.goToPreviousSet.bind(this);
@@ -134,7 +134,8 @@ class App extends Component {
         round: this.state.roundTwo,
         currentRound: 'roundTwo',
         showNextButton: true,
-        showSubmitButton: false
+        showSubmitButton: false,
+        showRetry: false
       })
     }
   }
@@ -168,8 +169,14 @@ class App extends Component {
 
     const score = scoreArray.length
     this.setState({
-      score
+      score: score,
+      showSubmitButton: false,
+      showRetry: true
     })
+  }
+
+  refreshPage = () => {
+    window.location.reload();
   }
 
   render() {
@@ -184,15 +191,15 @@ class App extends Component {
             <div className="info">
               <button onClick={this.hideInfoBar}><i className="fas fa-times"></i></button>
               <h2>How to Play?</h2>
-              <div className="info-container">
-                <p>First, take a look at the Wastenot Farms brochure!</p>
-                <p>Then, go through the quiz and place the items in whichever bin you think they belong!</p>
-                <p>Select the green circle for organic waste, blue circle for recycling, and black circle for everything else.</p>
-                <p>Then hit submit and find out how much waste wisdom you posess!</p>
-              </div>
+              <ol className="info-container">
+                <li>First, take a look at the Wastenot Farms brochure!</li>
+                <li>Then, go through the quiz and place the items in whichever bin you think they belong! But remember, Wastenot Farms' green bins can accept items that you might not expect!</li>
+                <li>Select the green circle for Wastenot organic waste, blue circle for recycling, and black circle for everything else.</li>
+                <li>Then hit submit, scroll down to the bins and find out how much waste wisdom you posess!</li>
+              </ol>
               <h3>What is Wastenot Farms?</h3>
               <div className="info-container">
-                <p><a href="http://wastenotfarms.com/">Wastenot Farms</a> is a Toronto based earthworm hatchery that offers <a href="http://wastenotwormfarms.com/workplacefoodwasterecycling/">Green Bins Growing</a> food waste pickup and delivery service.</p>
+                <p><a target="_blank" href="http://wastenotfarms.com/">Wastenot Farms</a> is a Toronto based earthworm hatchery that offers <a target="_blank" href="http://wastenotwormfarms.com/workplacefoodwasterecycling/">Green Bins Growing</a> food waste pickup and delivery service.</p>
               </div>
             </div> : null}
 
@@ -239,17 +246,41 @@ class App extends Component {
             {this.state.showSubmitButton ? <SubmitButton onClick={this.handleSubmit} /> : null}
 
             {this.state.showNextButton ? <NextButton onClick={this.goToNextSet} /> : null}
+
+            {this.state.showRetry ? <RetryButton onClick={this.refreshPage} /> : null}
           </div>
         </div>
         <div className="trash-bins">
+          <div className="score"><p>Score:</p><p>{this.state.score}</p></div>
           <div className="organic bin">
             <i className="fas fa-seedling"></i>
+            {this.state.usersOrganicBin.map((trashItem) => {
+              return (
+                <ul className="trash-item-list">
+                  <li>{trashItem}</li>
+                </ul>
+              )
+            })}
           </div>
           <div className="recycling bin">
             <i className="fas fa-recycle"></i>
+            {this.state.usersRecyclingBin.map((trashItem) => {
+              return (
+                <ul className="trash-item-list">
+                  <li>{trashItem}</li>
+                </ul>
+              )
+            })}
           </div>
           <div className="garbage bin">
             <i className="far fa-trash-alt"></i>
+            {this.state.usersGarbageBin.map((trashItem) => {
+              return (
+                <ul className="trash-item-list">
+                  <li>{trashItem}</li>
+                </ul>
+              )
+            })}
           </div>
         </div>
         <footer><p>Made by <a target="_blank" href="http://katbosnic.com"> Kat Bosnic</a></p></footer>

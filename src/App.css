@@ -69,10 +69,17 @@ header {
   top: 20px;
   right: 20px;
   color:rgb(196,42,45);
+  transition: all 0.3s ease;
+  border-radius: 50%;
 }
 
 .information-btn i:focus {
-  text-shadow: 0 0 5px green;
+  box-shadow: 0 0 5px green;
+}
+
+.information-btn:hover {
+  top: 23px;
+  transform: scale(1.2);
 }
 
 .game-field,
@@ -240,6 +247,12 @@ input:last-of-type {
   border: 8px solid rgb(196,42,45);
   padding: 15px 30px;
   border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.proceed-buttons button:hover {
+  background: rgb(196,42,45);
+  color: #FAFAFA;
 }
 
 .proceed-buttons {
@@ -247,7 +260,8 @@ input:last-of-type {
 }
 
 .next,
-.submit {
+.submit,
+.retry {
   float: right;
 }
 
@@ -256,12 +270,31 @@ input:last-of-type {
 }
 
 .trash-bins {
-  margin-top: 60px;
+  position: relative;
+  margin-top: 80px;
   width: 80%;
   max-width: 700px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  font-size: 1.2rem;
+}
+
+
+.score {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  position: absolute;
+  top: -60px;
+  left: -60px;
+  background: rgb(196,42,45);
+  color: #FAFAFA;
+  font-weight: 600;
   font-size: 1.2rem;
 }
 
@@ -310,7 +343,7 @@ a {
 
 .info {
   z-index: 1;
-  position: fixed;
+  position: absolute;
   top: 10%;
   right: 20%;
   left: 20%;
@@ -319,15 +352,20 @@ a {
   padding: 20px 50px;
   box-shadow: -5px 5px  30px #FAFAFA, 5px -5px 30px #FAFAFA;
   border-radius: 10px;
- 
 }
 
-.info i {
+.info button {
   position: absolute;
   top: 20px;
   right: 20px;
   color: #FAFAFA;
   font-size: 2rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.info button:hover {
+  transform: scale(1.2);
 }
 
 .info h2,
@@ -359,6 +397,26 @@ a {
   margin: 3px 0;
 }
 
+.info-container a {
+  border-bottom: 1px dotted #FAFAFA;
+  transition: all 0.3s ease;
+}
+
+.info-container a:hover {
+  border-bottom: 1px dotted rgb(196,42,45);
+} 
+
+ol li {
+  list-style: decimal;
+  padding-left: 10px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  font-family: 'Cabin', sans-serif;
+}
+
+
 /* .info-container:first-of-type {
   margin-bottom: 20px;
 } */
+
+
