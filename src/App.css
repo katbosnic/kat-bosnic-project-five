@@ -100,7 +100,7 @@ header {
   height: 150px;
   border: 8px solid orange;
   border-radius: 5px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   display: flex;
   text-align: center;
   justify-content: center;
@@ -307,3 +307,58 @@ a {
   color: rgb(196,42,45);
   text-decoration: none;
 }
+
+.info {
+  z-index: 1;
+  position: fixed;
+  top: 10%;
+  right: 20%;
+  left: 20%;
+  background: rgb(196,42,45);
+  color: #FAFAFA;
+  padding: 20px 50px;
+  box-shadow: -5px 5px  30px #FAFAFA, 5px -5px 30px #FAFAFA;
+  border-radius: 10px;
+ 
+}
+
+.info i {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: #FAFAFA;
+  font-size: 2rem;
+}
+
+.info h2,
+.info h3 {
+  color: #FAFAFA;
+  text-shadow: 2px 2px rgb(238, 113, 75);
+  margin: 0;
+}
+
+.info h2 {
+  font-size: 2rem;
+}
+
+.info h3 {
+  font-size: 1.8rem;
+}
+
+.info-container {
+  margin-top: 20px;
+  padding: 20px;
+  width: 100%;
+  background: #FAFAFA;
+  box-shadow: 5px 5px rgb(238, 113, 75);
+  color: rgb(32, 32, 34);
+  margin-bottom: 30px;
+}
+
+.info-container p {
+  margin: 3px 0;
+}
+
+/* .info-container:first-of-type {
+  margin-bottom: 20px;
+} */

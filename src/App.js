@@ -27,12 +27,10 @@ class App extends Component {
       showPreviousButton: false,
       showSubmitButton: false,
       showNextButton: true,
-      // compareRecyling: [],
-      // compareGarbage: [],
-      // compareOrganic: []
+      showInfo: false,
+      score: 0
     }
-    // this.radioInput = React.createRef();
-    this.goToPreviousSet = this.goToPreviousSet.bind(this);
+    // this.goToPreviousSet = this.goToPreviousSet.bind(this);
   }
 
   componentDidMount() {
@@ -141,30 +139,37 @@ class App extends Component {
     }
   }
 
+  showInfoBar = () => {
+    this.setState({
+      showInfo: true
+    })
+  }
+
+  hideInfoBar = () => {
+    this.setState({
+      showInfo: false
+    })
+  }
+
   handleSubmit = () => {
-    const addRecycling = [];
 
-    addRecycling.push(...this.state.usersRecyclingBin, ...this.state.recyclingItems);
+    const scoreArray = [];
+    const compare = (array1, array2) => {
+      array1.forEach((element1) => array2.forEach((element2) => {
+        if (element1 === element2) {
+          scoreArray.push(element1)
+        }
+      }))
+    }
 
-    const addOrganic = [];
+    compare(this.state.usersGarbageBin, this.state.garbageItems)
+    compare(this.state.organicItems, this.state.usersOrganicBin)
+    compare(this.state.usersRecyclingBin, this.state.recyclingItems)
 
-    addOrganic.push(...this.state.usersOrganicBin, ...this.state.organicItems);
-
-    const addGarbage = [];
-
-    addGarbage.push(...this.state.usersGarbageBin, ...this.state.garbageItems);
-
-    const uniqueArr = (arr) => {
-      return arr.filter(function (item, index) {
-        return arr.indexOf(item) >= index;
-      })
-    };
-
-    uniqueArr(addOrganic);
-    uniqueArr(addGarbage);
-    uniqueArr(addRecycling);
-
-    console.log(uniqueArr(addRecycling))
+    const score = scoreArray.length
+    this.setState({
+      score
+    })
   }
 
   render() {
@@ -172,7 +177,25 @@ class App extends Component {
       <div className="App" >
         <header>
           <h1>Waste-Wise!</h1>
-          <button className="information-btn"><i class="fas fa-info-circle"></i></button>
+
+          <button className="information-btn" onClick={this.showInfoBar}><i className="fas fa-info-circle"></i></button>
+
+          {this.state.showInfo ?
+            <div className="info">
+              <button onClick={this.hideInfoBar}><i className="fas fa-times"></i></button>
+              <h2>How to Play?</h2>
+              <div className="info-container">
+                <p>First, take a look at the Wastenot Farms brochure!</p>
+                <p>Then, go through the quiz and place the items in whichever bin you think they belong!</p>
+                <p>Select the green circle for organic waste, blue circle for recycling, and black circle for everything else.</p>
+                <p>Then hit submit and find out how much waste wisdom you posess!</p>
+              </div>
+              <h3>What is Wastenot Farms?</h3>
+              <div className="info-container">
+                <p><a href="http://wastenotfarms.com/">Wastenot Farms</a> is a Toronto based earthworm hatchery that offers <a href="http://wastenotwormfarms.com/workplacefoodwasterecycling/">Green Bins Growing</a> food waste pickup and delivery service.</p>
+              </div>
+            </div> : null}
+
         </header>
         {/* <GameField
           round = {this.state.roundOne}
