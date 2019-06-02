@@ -28,6 +28,7 @@ class App extends Component {
       showNextButton: true,
       showInfo: false,
       showRetry: false,
+      // checked: '',
       score: 0
     }
     // this.goToPreviousSet = this.goToPreviousSet.bind(this);
@@ -60,6 +61,9 @@ class App extends Component {
 
 
   handleChange = (event) => {
+    // this.setState({
+    //   checked: event.target.value
+    // });
     const targetedItemVal = event.target.value
     const targetedItem = event.target.dataset.name
     // check to see if targetItem is in any of the bins 
@@ -72,7 +76,7 @@ class App extends Component {
     this.setState({
       usersGarbageBin: copyGarbageBin,
       usersOrganicBin: copyOrganicBin,
-      usersRecyclingBin: copyRecyclingBin
+      usersRecyclingBin: copyRecyclingBin,
     })
 
     const checkArray = (array) => {
@@ -97,6 +101,9 @@ class App extends Component {
   }
 
   goToNextSet = () => {
+    // this.setState({
+    //   checked: ''
+    // })
     // check current round
     // if clicked go to next round
     if (this.state.currentRound === 'roundOne') {
@@ -104,7 +111,7 @@ class App extends Component {
       this.setState({
         round: this.state.roundTwo,
         currentRound: 'roundTwo',
-        showPreviousButton: true
+        showPreviousButton: true,
       })
     } else if (this.state.currentRound === 'roundTwo') {
 
@@ -207,23 +214,61 @@ class App extends Component {
         {/* <GameField
           round = {this.state.roundOne}
         /> */}
+        {/* trashItems = [
+        {
+          name: 'Paper',
+          userCheck: 'usersOrganicBin'
+        }
+      ]
+
+      handleChange = (event) => {
+        // user clicks, get value
+        const newArray = this.state.trashItems
+
+        const index = event.target.name
+        newArray[index].userCheck = event.target.value
+
+        this.setState({
+          trashItems: newArray
+        })
+      } */}
+
         <div className="game-field">
           <ul className="trash-card-container">
             {this.state.round.map((trashItem, index) => {
               return (
                 <form className="trash-card-and-inputs">
+                  {/* <Radio
+                    value="usersOrganicBin"
+                    name={index}
+                    dataName={trashItem}
+                    onChange={this.handleChange}
+                    id="1"
+                    typeOfBin=" in organic"
+                    action="place "
+                  // checked={trashItem.userCheck === "usersOrganicBin"}
+                  /> */}
+
 
                   <Radio
                     value="usersOrganicBin"
                     name={index}
                     dataName={trashItem}
                     onChange={this.handleChange}
+                    id="1"
+                    typeOfBin=" in organic"
+                    action="place "
+                  // checked={this.state.checked === "usersOrganicBin"}
                   />
                   <Radio
                     value="usersRecyclingBin"
                     name={index}
                     dataName={trashItem}
                     onChange={this.handleChange}
+                    id="2"
+                    typeOfBin=" in recycling"
+                    action="place "
+                  // checked={this.state.checked === "usersRecyclingBin"}
                   />
 
                   <Radio
@@ -231,6 +276,10 @@ class App extends Component {
                     name={index}
                     dataName={trashItem}
                     onChange={this.handleChange}
+                    id="3"
+                    typeOfBin=" in garbage"
+                    action="place "
+                  // checked={this.state.checked === "usersGarbageBin"}
                   />
                   <li className="trash-card" key={index}>
                     <p>{trashItem}</p>
