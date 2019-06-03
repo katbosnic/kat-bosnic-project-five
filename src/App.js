@@ -28,7 +28,9 @@ class App extends Component {
       showNextButton: true,
       showInfo: false,
       showRetry: false,
-      score: 0
+      score: 0,
+      wrongItems: [],
+      showWrongItems: false
     }
   }
 
@@ -173,6 +175,23 @@ class App extends Component {
     compare(this.state.organicItems, this.state.usersOrganicBin)
     compare(this.state.usersRecyclingBin, this.state.recyclingItems)
 
+    const incorrect = [];
+    const compareCorr = (array1, array2) => {
+      const array3 = array1.filter(function (obj) { return array2.indexOf(obj) == -1; });
+      incorrect.push(array3)
+    }
+
+    compareCorr(this.state.garbageItems, this.state.usersGarbageBin)
+    compareCorr(this.state.recyclingItems, this.state.usersRecyclingBin)
+    compareCorr(this.state.organicItems, this.state.usersOrganicBin)
+
+    const wrongAnswers = incorrect[0].concat(incorrect[1], incorrect[2])
+
+    this.setState({
+      wrongItems: wrongAnswers,
+      showWrongItems: true
+    })
+
     const score = scoreArray.length
     this.setState({
       score: score,
@@ -210,61 +229,63 @@ class App extends Component {
             </div> : null}
 
         </header>
+        <div className="wrapper">
+          <div className="game-field">
+            <ul className="trash-card-container">
+              {this.state.round.map((trashItem, index) => {
+                return (
+                  <form className="trash-card-and-inputs">
 
-        <div className="game-field">
-          <ul className="trash-card-container">
-            {this.state.round.map((trashItem, index) => {
-              return (
-                <form className="trash-card-and-inputs">
+                    <Radio
+                      value="usersOrganicBin"
+                      name={index}
+                      dataName={trashItem}
+                      onChange={this.handleChange}
+                      id="1"
+                      typeOfBin=" in organic"
+                      action="place "
+                    />
+                    <Radio
+                      value="usersRecyclingBin"
+                      name={index}
+                      dataName={trashItem}
+                      onChange={this.handleChange}
+                      id="2"
+                      typeOfBin=" in recycling"
+                      action="place "
+                    />
 
-                  <Radio
-                    value="usersOrganicBin"
-                    name={index}
-                    dataName={trashItem}
-                    onChange={this.handleChange}
-                    id="1"
-                    typeOfBin=" in organic"
-                    action="place "
-                  />
-                  <Radio
-                    value="usersRecyclingBin"
-                    name={index}
-                    dataName={trashItem}
-                    onChange={this.handleChange}
-                    id="2"
-                    typeOfBin=" in recycling"
-                    action="place "
-                  />
+                    <Radio
+                      value="usersGarbageBin"
+                      name={index}
+                      dataName={trashItem}
+                      onChange={this.handleChange}
+                      id="3"
+                      typeOfBin=" in garbage"
+                      action="place "
+                    />
+                    <li className="trash-card" key={index}>
+                      <p>{trashItem}</p>
+                    </li>
+                  </form>
+                )
+              })}
+            </ul>
+            <div className="proceed-buttons clearfix">
 
-                  <Radio
-                    value="usersGarbageBin"
-                    name={index}
-                    dataName={trashItem}
-                    onChange={this.handleChange}
-                    id="3"
-                    typeOfBin=" in garbage"
-                    action="place "
-                  />
-                  <li className="trash-card" key={index}>
-                    <p>{trashItem}</p>
-                  </li>
-                </form>
-              )
-            })}
-          </ul>
-          <div className="proceed-buttons clearfix">
+              {this.state.showPreviousButton ? <BackButton onClick={this.goToPreviousSet} /> : null}
 
-            {this.state.showPreviousButton ? <BackButton onClick={this.goToPreviousSet} /> : null}
+              {this.state.showSubmitButton ? <SubmitButton onClick={this.handleSubmit} /> : null}
 
-            {this.state.showSubmitButton ? <SubmitButton onClick={this.handleSubmit} /> : null}
+              {this.state.showNextButton ? <NextButton onClick={this.goToNextSet} /> : null}
 
-            {this.state.showNextButton ? <NextButton onClick={this.goToNextSet} /> : null}
-
-            {this.state.showRetry ? <RetryButton onClick={this.refreshPage} /> : null}
+              {this.state.showRetry ? <RetryButton onClick={this.refreshPage} /> : null}
+            </div>
           </div>
         </div>
+       
         <div className="trash-bins">
-          <div className="score"><p>Score:</p><p>{this.state.score}</p></div>
+          <div className="score"><p>Score:</p><p>{this.state.score}/18</p></div>
           <div className="organic bin">
             <i className="fas fa-seedling"></i>
             {this.state.usersOrganicBin.map((trashItem) => {
@@ -290,7 +311,17 @@ class App extends Component {
             {this.state.usersGarbageBin.map((trashItem) => {
               return (
                 <ul className="trash-item-list">
-                  <li>{trashItem}</li>
+                  <li> {trashItem}</li>
+                </ul>
+              )
+            })}
+          </div>
+          <div className="incorrect bin">
+            <i class="far fa-times-circle"></i>
+            {this.state.wrongItems.map((wrongItem) => {
+              return (
+                <ul className="trash-item-list">
+                  <li>{wrongItem}</li>
                 </ul>
               )
             })}
