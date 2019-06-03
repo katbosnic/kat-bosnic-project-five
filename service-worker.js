@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/kat-bosnic-project-five/precache-manifest.0f3569521c0d5f2300d55009272f3923.js"
+  "/kat-bosnic-project-five/precache-manifest.2a3010eb5adda1ef9dd94aacecae8479.js"
 );
 
 self.addEventListener('message', (event) => {
